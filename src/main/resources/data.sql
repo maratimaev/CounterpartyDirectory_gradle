@@ -1,0 +1,1 @@
+INSERT INTO books (title) VALUES ('First book'), ('Second book'), ('Third book');
