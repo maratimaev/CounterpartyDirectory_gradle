@@ -12,6 +12,7 @@
     <properties>
         <postgresql>42.2.4</postgresql>
         <orika.core>1.5.4</orika.core>
+        <ehcache>3.7.1</ehcache>
     </properties>
 
     <parent>
@@ -48,10 +49,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -70,7 +67,7 @@
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>3.7.1</version>
+            <version>${ehcache}</version>
         </dependency>
     </dependencies>
 

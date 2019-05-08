@@ -9,11 +9,7 @@ import ru.bellintegrator.dao.PersonRepository;
 import ru.bellintegrator.db.Tables;
 import ru.bellintegrator.db.tables.records.ContractorRecord;
 import ru.bellintegrator.model.Contractor;
-import ru.bellintegrator.model.Person;
 import ru.bellintegrator.model.mapper.MapperFacade;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class ContractorRepositoryImpl implements ContractorRepository {
@@ -39,16 +35,6 @@ public class ContractorRepositoryImpl implements ContractorRepository {
         contractor.setLegalAddress(addressRepository.findAddressById(contractorRecord.getLegalAddressId()));
         contractor.setAdvertising(addressRepository.findAddressById(contractorRecord.getAdvertisingId()));
         contractor.setResponsible(personRepository.findPersonById(contractorRecord.getResponsibleId()));
-
-        List<Person> contacts = dsl
-                .selectFrom(Tables.CONTRACTOR_PERSON)
-                .where(Tables.CONTRACTOR_PERSON.CONTRACTOR_ID.eq(id))
-                .fetch()
-                .stream()
-                .map(e -> mapperFacade.map(personRepository.findPersonById(e.getPersonId()), Person.class))
-                .collect(Collectors.toList());
-        contractor.setContacts(contacts);
-
         return contractor;
     }
 }

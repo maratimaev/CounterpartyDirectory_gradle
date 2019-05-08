@@ -5,12 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.dao.PersonRepository;
 import ru.bellintegrator.db.Tables;
 import ru.bellintegrator.db.tables.records.PersonRecord;
 import ru.bellintegrator.model.Person;
 import ru.bellintegrator.model.mapper.MapperFacade;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
@@ -30,8 +34,21 @@ public class PersonRepositoryImpl implements PersonRepository {
                 .map(e -> mapperFacade.map(e, Person.class));
     }
 
+    @Cacheable(value="personCache", key = "'contractorId:' + #contractorId")
     @Override
-    public Person create(Person person) {
+    public List<Person> findPersonsByContractor(int contractorId) {
+        return dsl
+                .selectFrom(Tables.CONTRACTOR_PERSON)
+                .where(Tables.CONTRACTOR_PERSON.CONTRACTOR_ID.eq(contractorId))
+                .fetch()
+                .stream()
+                .map(e -> mapperFacade.map(findPersonById(e.getPersonId()), Person.class))
+                .collect(Collectors.toList());
+    }
+
+    @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
+    @Override
+    public Person create(Person person, int contractorId) {
         PersonRecord personRecord = dsl.insertInto(Tables.PERSON)
                 .set(Tables.PERSON.LAST_NAME, person.getLastName())
                 .set(Tables.PERSON.FIRST_NAME, person.getFirstName())
@@ -45,8 +62,9 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @CachePut(value = "personCache", key = "#person.id")
+    @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     @Override
-    public Person update(Person person) {
+    public Person update(Person person, int contractorId) {
         dsl.update(Tables.PERSON)
                 .set(Tables.PERSON.LAST_NAME, person.getLastName())
                 .set(Tables.PERSON.FIRST_NAME, person.getFirstName())
@@ -58,9 +76,12 @@ public class PersonRepositoryImpl implements PersonRepository {
         return findPersonById(person.getId());
     }
 
-    @CacheEvict(value = "personCache")
+    @Caching(evict = {
+            @CacheEvict(value = "personCache", key = "#id"),
+            @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
+    })
     @Override
-    public void delete(int id) {
+    public void delete(int id, int contractorId) {
         dsl.deleteFrom(Tables.PERSON)
                 .where(Tables.PERSON.ID.equal(id))
                 .execute();

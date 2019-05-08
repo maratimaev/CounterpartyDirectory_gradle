@@ -7,6 +7,8 @@ import ru.bellintegrator.dao.PersonRepository;
 import ru.bellintegrator.model.Person;
 import ru.bellintegrator.service.PersonService;
 
+import java.util.List;
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -18,18 +20,23 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findPersonById(id);
     }
 
-    @Transactional
-    public Person create(Person person) {
-        return personRepository.create(person);
+    @Transactional(readOnly = true)
+    public List<Person> getPersonsByContractor(int contractorId) {
+        return personRepository.findPersonsByContractor(contractorId);
     }
 
     @Transactional
-    public Person update(Person person) {
-        return personRepository.update(person);
+    public Person create(Person person, int contractorId) {
+        return personRepository.create(person, contractorId);
     }
 
     @Transactional
-    public void delete(int id) {
-        personRepository.delete(id);
+    public Person update(Person person, int contractorId) {
+        return personRepository.update(person, contractorId);
+    }
+
+    @Transactional
+    public void delete(int id, int contractorId) {
+        personRepository.delete(id, contractorId);
     }
 }
