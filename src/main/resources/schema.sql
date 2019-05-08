@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS contractor (
 );
 
 CREATE TABLE IF NOT EXISTS contractor_person (
-    contractor_id   int REFERENCES contractor(id) ON UPDATE CASCADE,
-    person_id       int REFERENCES person(id) ON UPDATE CASCADE,
+    contractor_id   int REFERENCES contractor(id),
+    person_id       int REFERENCES person(id),
     CONSTRAINT contractor_person_pkey PRIMARY KEY (contractor_id, person_id)
 );
 

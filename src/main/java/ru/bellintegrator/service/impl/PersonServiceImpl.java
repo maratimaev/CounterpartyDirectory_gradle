@@ -17,4 +17,19 @@ public class PersonServiceImpl implements PersonService {
     public Person getPerson(int id) {
         return personRepository.findPersonById(id);
     }
+
+    @Transactional
+    public Person create(Person person) {
+        return personRepository.create(person);
+    }
+
+    @Transactional
+    public Person update(Person person) {
+        return personRepository.update(person);
+    }
+
+    @Transactional
+    public void delete(int id) {
+        personRepository.delete(id);
+    }
 }
