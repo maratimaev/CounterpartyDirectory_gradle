@@ -1,13 +1,13 @@
 package ru.bellintegrator.service;
 
-import ru.bellintegrator.model.Person;
+import ru.bellintegrator.view.PersonView;
 
 import java.util.List;
 
 public interface PersonService {
-    Person getPerson(int id);
-    List<Person> getPersonsByContractor(int contractorId);
-    Person create(Person person, int contractorId);
-    Person update(Person person, int contractorId);
+    PersonView getPerson(int id);
+    List<PersonView> getPersonsByContractor(int contractorId);
+    PersonView create(PersonView personView, int contractorId);
+    PersonView update(PersonView personView, int contractorId);
     void delete(int id, int contractorId);
 }

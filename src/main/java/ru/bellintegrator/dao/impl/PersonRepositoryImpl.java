@@ -26,7 +26,7 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Cacheable(value="personCache")
     @Override
-    public Person findPersonById(int id) {
+    public Person findById(int id) {
         return dsl
                 .selectFrom(Tables.PERSON)
                 .where(Tables.PERSON.ID.eq(id))
@@ -42,7 +42,7 @@ public class PersonRepositoryImpl implements PersonRepository {
                 .where(Tables.CONTRACTOR_PERSON.CONTRACTOR_ID.eq(contractorId))
                 .fetch()
                 .stream()
-                .map(e -> mapperFacade.map(findPersonById(e.getPersonId()), Person.class))
+                .map(e -> mapperFacade.map(findById(e.getPersonId()), Person.class))
                 .collect(Collectors.toList());
     }
 
@@ -73,7 +73,7 @@ public class PersonRepositoryImpl implements PersonRepository {
                 .set(Tables.PERSON.EMAIL, person.getEmail())
                 .where(Tables.PERSON.ID.equal(person.getId()))
                 .execute();
-        return findPersonById(person.getId());
+        return this.findById(person.getId());
     }
 
     @Caching(evict = {

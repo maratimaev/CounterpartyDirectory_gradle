@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.model.Person;
 import ru.bellintegrator.service.PersonService;
+import ru.bellintegrator.view.PersonView;
 
 @RestController
 @RequestMapping("/api/person")
@@ -20,19 +20,19 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping(value ="/{sid}", produces = "application/json")
-    public Person getPerson(@PathVariable String sid) {
+    public PersonView getPerson(@PathVariable String sid) {
         int id = Integer.parseInt(sid);
         return personService.getPerson(id);
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
-    public Person create(@RequestBody Person person, @RequestParam int contractorId) {
-        return personService.create(person, contractorId);
+    public PersonView create(@RequestBody PersonView personView, @RequestParam int contractorId) {
+        return personService.create(personView, contractorId);
     }
 
     @PutMapping(value = "/update", produces = "application/json", consumes = "application/json")
-    public Person update(@RequestBody Person person, @RequestParam int contractorId) {
-        return personService.update(person, contractorId);
+    public PersonView update(@RequestBody PersonView personView, @RequestParam int contractorId) {
+        return personService.update(personView, contractorId);
     }
 
     @DeleteMapping(value = "/delete/{id}")

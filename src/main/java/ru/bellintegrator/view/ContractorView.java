@@ -1,19 +1,19 @@
-package ru.bellintegrator.model;
+package ru.bellintegrator.view;
 
 import java.util.List;
 
-public class Contractor {
+public class ContractorView {
     private int id;
     private String name;
     private String fullName;
     private String type;
     private String inn;
-    private Address legalAddress;
+    private AddressView legalAddress;
     private String phoneNumber;
-    private Address advertising;
+    private AddressView advertising;
     private String email;
-    private List<Person> contacts;
-    private Person responsible;
+    private List<PersonView> contacts;
+    private PersonView responsible;
 
     public int getId() {
         return id;
@@ -55,28 +55,12 @@ public class Contractor {
         this.inn = inn;
     }
 
-    public Address getLegalAddress() {
-        return legalAddress;
-    }
-
-    public void setLegalAddress(Address legalAddress) {
-        this.legalAddress = legalAddress;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Address getAdvertising() {
-        return advertising;
-    }
-
-    public void setAdvertising(Address advertising) {
-        this.advertising = advertising;
     }
 
     public String getEmail() {
@@ -87,19 +71,35 @@ public class Contractor {
         this.email = email;
     }
 
-    public List<Person> getContacts() {
+    public List<PersonView> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Person> contacts) {
+    public void setContacts(List<PersonView> contacts) {
         this.contacts = contacts;
     }
 
-    public Person getResponsible() {
+    public AddressView getLegalAddress() {
+        return legalAddress;
+    }
+
+    public void setLegalAddress(AddressView legalAddress) {
+        this.legalAddress = legalAddress;
+    }
+
+    public AddressView getAdvertising() {
+        return advertising;
+    }
+
+    public void setAdvertising(AddressView advertising) {
+        this.advertising = advertising;
+    }
+
+    public PersonView getResponsible() {
         return responsible;
     }
 
-    public void setResponsible(Person responsible) {
+    public void setResponsible(PersonView responsible) {
         this.responsible = responsible;
     }
 }

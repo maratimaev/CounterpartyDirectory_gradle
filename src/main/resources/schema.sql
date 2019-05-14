@@ -7,6 +7,9 @@ CREATE TABLE IF NOT EXISTS address (
     housing_number  int
 );
 
+ALTER TABLE address DROP CONSTRAINT IF EXISTS address_constraint;
+ALTER TABLE address ADD CONSTRAINT address_constraint UNIQUE(region, city, street, house_number, housing_number);
+
 CREATE TABLE IF NOT EXISTS person (
     id              SERIAL PRIMARY KEY,
     last_name       varchar(100) NOT NULL,
@@ -22,11 +25,11 @@ CREATE TABLE IF NOT EXISTS contractor (
     full_name           varchar(255) NOT NULL,
     type                varchar(100) NOT NULL,
     inn                 varchar(12) NOT NULL,
-    legal_address_id    int REFERENCES address(id) NOT NULL,
+    legal_address_id    int REFERENCES address(id),
     phone_number        varchar(11) NOT NULL,
     advertising_id      int REFERENCES address(id),
     email               varchar(100),
-    responsible_id      int REFERENCES person(id) NOT NULL
+    responsible_id      int REFERENCES person(id)
 );
 
 CREATE TABLE IF NOT EXISTS contractor_person (

@@ -5,7 +5,7 @@ import ru.bellintegrator.model.Person;
 import java.util.List;
 
 public interface PersonRepository {
-    Person findPersonById(int id);
+    Person findById(int id);
     List<Person> findPersonsByContractor(int contractorId);
     Person create(Person person, int contractorId);
     Person update(Person person, int contractorId);
