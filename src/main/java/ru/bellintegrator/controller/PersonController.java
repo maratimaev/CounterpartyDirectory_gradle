@@ -22,17 +22,17 @@ public class PersonController {
     @GetMapping(value ="/{sid}", produces = "application/json")
     public PersonView getPerson(@PathVariable String sid) {
         int id = Integer.parseInt(sid);
-        return personService.getPerson(id);
+        return personService.getById(id);
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
-    public PersonView create(@RequestBody PersonView personView, @RequestParam int contractorId) {
-        return personService.create(personView, contractorId);
+    public PersonView create(@RequestBody PersonView personView) {
+        return personService.create(personView,  personView.getContractorId());
     }
 
     @PutMapping(value = "/update", produces = "application/json", consumes = "application/json")
-    public PersonView update(@RequestBody PersonView personView, @RequestParam int contractorId) {
-        return personService.update(personView, contractorId);
+    public PersonView update(@RequestBody PersonView personView) {
+        return personService.update(personView, personView.getContractorId());
     }
 
     @DeleteMapping(value = "/delete/{id}")

@@ -1,19 +1,13 @@
 package ru.bellintegrator.model;
 
-import java.util.List;
-
 public class Contractor {
     private int id;
     private String name;
     private String fullName;
     private String type;
     private String inn;
-    private Address legalAddress;
     private String phoneNumber;
-    private Address advertising;
     private String email;
-    private List<Person> contacts;
-    private Person responsible;
 
     public int getId() {
         return id;
@@ -55,14 +49,6 @@ public class Contractor {
         this.inn = inn;
     }
 
-    public Address getLegalAddress() {
-        return legalAddress;
-    }
-
-    public void setLegalAddress(Address legalAddress) {
-        this.legalAddress = legalAddress;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -71,35 +57,11 @@ public class Contractor {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAdvertising() {
-        return advertising;
-    }
-
-    public void setAdvertising(Address advertising) {
-        this.advertising = advertising;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Person> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<Person> contacts) {
-        this.contacts = contacts;
-    }
-
-    public Person getResponsible() {
-        return responsible;
-    }
-
-    public void setResponsible(Person responsible) {
-        this.responsible = responsible;
     }
 }

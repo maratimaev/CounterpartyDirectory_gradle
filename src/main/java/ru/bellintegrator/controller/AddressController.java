@@ -10,29 +10,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.service.CrudService;
+import ru.bellintegrator.service.AddressService;
 import ru.bellintegrator.view.AddressView;
 
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
     @Autowired
-    private CrudService<AddressView> addressService;
+    private AddressService addressService;
 
     @GetMapping(value ="/{id}", produces = "application/json")
     @ResponseBody
     public AddressView getAddress(@PathVariable int id) {
-        return addressService.get(id);
+        return addressService.getById(id);
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
     public AddressView create(@RequestBody AddressView addressView) {
-        return addressService.create(addressView);
+        return addressService.create(addressView, addressView.getContractorId());
     }
 
     @PutMapping(value = "/update", produces = "application/json", consumes = "application/json")
     public AddressView update(@RequestBody AddressView addressView) {
-        return addressService.update(addressView);
+        return addressService.update(addressView, addressView.getContractorId());
     }
 
     @DeleteMapping(value = "/delete/{id}")

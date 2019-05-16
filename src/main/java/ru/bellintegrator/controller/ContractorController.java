@@ -22,7 +22,7 @@ public class ContractorController {
     @GetMapping(value ="/{id}", produces = "application/json")
     @ResponseBody
     public ContractorView getContractor(@PathVariable int id) {
-        return contractorService.get(id);
+        return contractorService.getById(id);
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")

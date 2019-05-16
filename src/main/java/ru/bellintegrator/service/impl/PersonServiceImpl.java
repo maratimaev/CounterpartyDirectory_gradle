@@ -7,7 +7,6 @@ import ru.bellintegrator.dao.PersonRepository;
 import ru.bellintegrator.exception.CantManipulateObject;
 import ru.bellintegrator.model.Person;
 import ru.bellintegrator.model.mapper.MapperFacade;
-import ru.bellintegrator.service.ContractorService;
 import ru.bellintegrator.service.PersonService;
 import ru.bellintegrator.view.PersonView;
 
@@ -22,11 +21,9 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    @Autowired
-    private ContractorService contractorService;
-
     @Transactional(readOnly = true)
-    public PersonView getPerson(int id) {
+    @Override
+    public PersonView getById(int id) {
         try {
             return mapperFacade.map(personRepository.findById(id), PersonView.class);
         } catch (Exception ex) {
@@ -35,37 +32,53 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Transactional(readOnly = true)
-    public List<PersonView> getPersonsByContractor(int contractorId) {
+    @Override
+    public List<PersonView> getByContractorId(int contractorId) {
         try {
-            return mapperFacade.mapAsList(personRepository.findPersonsByContractor(contractorId), PersonView.class);
+            return mapperFacade.mapAsList(personRepository.findByContractorId(contractorId), PersonView.class);
         } catch (Exception ex) {
-            throw new CantManipulateObject(String.format("There is a problem while finding contacts by contractor id=%s", contractorId), ex);
+            throw new CantManipulateObject(String.format("There is a problem while finding contact by contractorId=%s", contractorId), ex);
         }
     }
 
     @Transactional
-    public PersonView create(PersonView personView, int contractorId) {
-        Person person = mapperFacade.map(personView, Person.class);
-        try {
-            return mapperFacade.map(personRepository.create(person, contractorId), PersonView.class);
-        } catch (Exception ex) {
-            throw new CantManipulateObject("There is a problem while saving new address to DB (check same object existence)", ex);
+    @Override
+    public PersonView create(PersonView personView,  int contractorId) {
+        List<Person> personList = personRepository.findByContractorId(personView.getContractorId());
+        if (!personList.isEmpty() && (personView.getPersonType() == 2)) {
+            throw new CantManipulateObject(String.format("Legal address for contractor with id=%s already exist", personView.getContractorId()));
         }
+
+        Person person;
+        try {
+            person = personRepository.create(mapperFacade.map(personView, Person.class), contractorId);
+        } catch (Exception ex) {
+            throw new CantManipulateObject("There is a problem while saving new contact to DB", ex);
+        }
+        return mapperFacade.map(person, PersonView.class);
     }
 
     @Transactional
+    @Override
     public PersonView update(PersonView personView, int contractorId) {
-        Person person = mapperFacade.map(personView, Person.class);
-        try {
-            return mapperFacade.map(personRepository.create(person, contractorId), PersonView.class);
-        } catch (Exception ex) {
-            throw new CantManipulateObject("There is a problem while updating address to DB (check same object existence)", ex);
+        List<Person> personList = personRepository.findByContractorId(contractorId);
+        boolean hasExist = personList.stream().anyMatch(e -> e.getId() == personView.getId());
+        if(!hasExist) {
+            throw new CantManipulateObject(String.format("Nothing to update by contact id=%s", personView.getId()));
         }
+
+        Person person;
+        try {
+            person = personRepository.update(mapperFacade.map(personView, Person.class), contractorId);
+        } catch (Exception ex) {
+            throw new CantManipulateObject("There is a problem while updating contact to DB", ex);
+        }
+        return mapperFacade.map(person, PersonView.class);
     }
 
     @Transactional
+    @Override
     public void delete(int id, int contractorId) {
-        contractorService.deletePerson(id);
         personRepository.delete(id, contractorId);
     }
 }

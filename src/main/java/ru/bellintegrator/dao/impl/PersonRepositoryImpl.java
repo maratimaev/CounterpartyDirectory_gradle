@@ -14,7 +14,6 @@ import ru.bellintegrator.model.Person;
 import ru.bellintegrator.model.mapper.MapperFacade;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
@@ -26,35 +25,35 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Cacheable(value="personCache")
     @Override
-    public Person findById(int id) {
-        return dsl
+    public Person findById(Integer id) {
+        PersonRecord personRecord = dsl
                 .selectFrom(Tables.PERSON)
                 .where(Tables.PERSON.ID.eq(id))
-                .fetchOne()
-                .map(e -> mapperFacade.map(e, Person.class));
+                .fetchOne();
+        return mapperFacade.map(personRecord, Person.class);
     }
 
     @Cacheable(value="personCache", key = "'contractorId:' + #contractorId")
     @Override
-    public List<Person> findPersonsByContractor(int contractorId) {
-        return dsl
-                .selectFrom(Tables.CONTRACTOR_PERSON)
-                .where(Tables.CONTRACTOR_PERSON.CONTRACTOR_ID.eq(contractorId))
-                .fetch()
-                .stream()
-                .map(e -> mapperFacade.map(findById(e.getPersonId()), Person.class))
-                .collect(Collectors.toList());
+    public List<Person> findByContractorId(Integer contractorId) {
+        List<PersonRecord> personRecordList = dsl
+                .selectFrom(Tables.PERSON)
+                .where(Tables.PERSON.CONTRACTOR_ID.eq(contractorId))
+                .fetch();
+        return mapperFacade.mapAsList(personRecordList, Person.class);
     }
 
     @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     @Override
-    public Person create(Person person, int contractorId) {
+    public Person create(Person person, Integer contractorId) {
         PersonRecord personRecord = dsl.insertInto(Tables.PERSON)
                 .set(Tables.PERSON.LAST_NAME, person.getLastName())
                 .set(Tables.PERSON.FIRST_NAME, person.getFirstName())
                 .set(Tables.PERSON.MIDDLE_NAME, person.getMiddleName())
                 .set(Tables.PERSON.PHONE_NUMBER, person.getPhoneNumber())
                 .set(Tables.PERSON.EMAIL, person.getEmail())
+                .set(Tables.PERSON.PERSON_TYPE, person.getPersonType())
+                .set(Tables.PERSON.CONTRACTOR_ID, contractorId)
                 .returning(Tables.PERSON.ID)
                 .fetchOne();
         person.setId(personRecord.getId());
@@ -64,7 +63,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @CachePut(value = "personCache", key = "#person.id")
     @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     @Override
-    public Person update(Person person, int contractorId) {
+    public Person update(Person person, Integer contractorId) {
         dsl.update(Tables.PERSON)
                 .set(Tables.PERSON.LAST_NAME, person.getLastName())
                 .set(Tables.PERSON.FIRST_NAME, person.getFirstName())
@@ -81,7 +80,7 @@ public class PersonRepositoryImpl implements PersonRepository {
             @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     })
     @Override
-    public void delete(int id, int contractorId) {
+    public void delete(Integer id, Integer contractorId) {
         dsl.deleteFrom(Tables.PERSON)
                 .where(Tables.PERSON.ID.equal(id))
                 .execute();

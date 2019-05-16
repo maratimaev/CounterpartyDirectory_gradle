@@ -7,6 +7,8 @@ public class Address {
     private String street;
     private int houseNumber;
     private int housingNumber;
+    private int addressType;
+    private int contractorId;
 
     public int getId() {
         return id;
@@ -54,5 +56,21 @@ public class Address {
 
     public void setHousingNumber(int housingNumber) {
         this.housingNumber = housingNumber;
+    }
+
+    public int getContractorId() {
+        return contractorId;
+    }
+
+    public void setContractorId(int contractorId) {
+        this.contractorId = contractorId;
+    }
+
+    public int getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(int addressType) {
+        this.addressType = addressType;
     }
 }

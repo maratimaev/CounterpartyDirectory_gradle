@@ -7,6 +7,8 @@ public class Person {
     private String middleName;
     private String phoneNumber;
     private String email;
+    private int personType;
+    private int contractorId;
 
     public int getId() {
         return id;
@@ -54,5 +56,21 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(int personType) {
+        this.personType = personType;
+    }
+
+    public int getContractorId() {
+        return contractorId;
+    }
+
+    public void setContractorId(int contractorId) {
+        this.contractorId = contractorId;
     }
 }
