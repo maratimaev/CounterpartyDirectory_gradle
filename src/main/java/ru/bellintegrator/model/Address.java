@@ -1,13 +1,40 @@
 package ru.bellintegrator.model;
 
+/**
+ * Модель адреса
+ */
 public class Address {
+    /**
+     * id адреса
+     */
     private int id;
+    /**
+     * Регион
+     */
     private String region;
+    /**
+     * Город
+     */
     private String city;
+    /**
+     * Улица
+     */
     private String street;
+    /**
+     * Номер дома
+     */
     private int houseNumber;
+    /**
+     * Номер корпуса
+     */
     private int housingNumber;
+    /**
+     * Тип адреса (1 - юридический, 2 - для рекламной продукции)
+     */
     private int addressType;
+    /**
+     * id контрагента
+     */
     private int contractorId;
 
     public int getId() {

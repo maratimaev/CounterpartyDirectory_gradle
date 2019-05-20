@@ -13,6 +13,10 @@
         <postgresql>42.2.4</postgresql>
         <orika.core>1.5.4</orika.core>
         <ehcache>3.7.1</ehcache>
+        <dbUrl>jdbc:postgresql://localhost:5432/ContractorsDirectory</dbUrl>
+        <dbUsername>postgres</dbUsername>
+        <dbPassword>Zz123456</dbPassword>
+        <apache.commons>3.9</apache.commons>
     </properties>
 
     <parent>
@@ -69,6 +73,12 @@
             <artifactId>ehcache</artifactId>
             <version>${ehcache}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.commons}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -99,9 +109,9 @@
                 <configuration>
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
-                        <url>jdbc:postgresql://localhost:5432/ContractorsDirectory</url>
-                        <user>postgres</user>
-                        <password>Zz123456</password>
+                        <url>${dbUrl}</url>
+                        <user>${dbUsername}</user>
+                        <password>${dbPassword}</password>
                     </jdbc>
                     <generator>
                         <database>

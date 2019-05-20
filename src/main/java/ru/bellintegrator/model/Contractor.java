@@ -1,12 +1,36 @@
 package ru.bellintegrator.model;
 
+/**
+ * Модель контрагента
+ */
 public class Contractor {
+    /**
+     * id контрагента
+     */
     private int id;
+    /**
+     * Имя контрагента
+     */
     private String name;
+    /**
+     * Полное имя контрагента
+     */
     private String fullName;
+    /**
+     * Тип контрагента
+     */
     private String type;
+    /**
+     * ИНН
+     */
     private String inn;
+    /**
+     * Номер телефона
+     */
     private String phoneNumber;
+    /**
+     * Электронная почта
+     */
     private String email;
 
     public int getId() {

@@ -71,6 +71,7 @@ public class AddressRepositoryImpl implements AddressRepository {
                 .set(Tables.ADDRESS.STREET, address.getStreet())
                 .set(Tables.ADDRESS.HOUSE_NUMBER, address.getHouseNumber())
                 .set(Tables.ADDRESS.HOUSING_NUMBER, address.getHousingNumber())
+                .where(Tables.ADDRESS.ID.equal(address.getId()))
                 .execute();
         return this.findByTypeAndContractorId(address.getAddressType(), contractorId);
     }

@@ -1,13 +1,40 @@
 package ru.bellintegrator.model;
 
+/**
+ * Модель контакта
+ */
 public class Person {
+    /**
+     * id контакта
+     */
     private int id;
+    /**
+     * Фамилия
+     */
     private String lastName;
+    /**
+     * Имя
+     */
     private String firstName;
+    /**
+     * Отчество
+     */
     private String middleName;
+    /**
+     * Номер телефона
+     */
     private String phoneNumber;
+    /**
+     * Электронная почта
+     */
     private String email;
+    /**
+     * Тип контакта (1 - контактное лицо, 2 - ответственный)
+     */
     private int personType;
+    /**
+     * id контрагента
+     */
     private int contractorId;
 
     public int getId() {

@@ -1,11 +1,16 @@
 package ru.bellintegrator.exception;
 
 /**
- * Выбрасывается, если нельзя обновить поля объекта
+ * Выбрасывается при действиях с объектами приводящих к ошибкам
  */
 public class CantManipulateObject extends RuntimeException {
+    /**
+     * Текст сообщения об ошибке
+     */
     private String message;
-
+    /**
+     * Сработавшее исключение
+     */
     private Exception ex;
 
     public CantManipulateObject() {

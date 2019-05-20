@@ -24,39 +24,30 @@ public class AddressServiceImpl  implements AddressService {
     @Transactional(readOnly = true)
     @Override
     public AddressView getById(int id) {
-        try {
-            return mapperFacade.map(addressRepository.findById(id), AddressView.class);
-        } catch (Exception ex) {
-            throw new CantManipulateObject(String.format("There is a problem while finding address by id=%s", id), ex);
-        }
+        return mapperFacade.map(addressRepository.findById(id), AddressView.class);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<AddressView> getByContractorId(int contractorId) {
-        try {
-            return mapperFacade.mapAsList(addressRepository.findByContractorId(contractorId), AddressView.class);
-        } catch (Exception ex) {
-            throw new CantManipulateObject(String.format("There is a problem while finding address by contractorId=%s", contractorId), ex);
-        }
+        return mapperFacade.mapAsList(addressRepository.findByContractorId(contractorId), AddressView.class);
     }
 
     @Transactional(readOnly = true)
     @Override
     public AddressView getByTypeAndContractorId(int addressType, int contractorId) {
-        try {
-            return mapperFacade.map(addressRepository.findByTypeAndContractorId(addressType, contractorId), AddressView.class);
-        } catch (Exception ex) {
-            throw new CantManipulateObject(String.format("There is a problem while finding address by addressType=%s and contractorId=%s", addressType, contractorId), ex);
-        }
+        return mapperFacade.map(addressRepository.findByTypeAndContractorId(addressType, contractorId), AddressView.class);
     }
 
     @Transactional
     @Override
     public AddressView create(AddressView addressView, int contractorId) {
-        Address address = addressRepository.findByTypeAndContractorId(addressView.getAddressType(), contractorId);
-        if (address == null) {
-             address = addressRepository.create(mapperFacade.map(addressView, Address.class), contractorId);
+        Address address = null;
+        if(addressView != null) {
+            address = addressRepository.findByTypeAndContractorId(addressView.getAddressType(), contractorId);
+            if (address == null) {
+                address = addressRepository.create(mapperFacade.map(addressView, Address.class), contractorId);
+            }
         }
         return mapperFacade.map(address, AddressView.class);
     }
@@ -64,22 +55,24 @@ public class AddressServiceImpl  implements AddressService {
     @Transactional
     @Override
     public AddressView update(AddressView addressView, int contractorId) {
-        Address address = addressRepository.findByTypeAndContractorId(addressView.getAddressType(), contractorId);
-        if (address == null) {
-            throw new CantManipulateObject(String.format("Can not find address by addressType=%s and contractorId=%s", addressView.getAddressType(), contractorId));
-        }
-        Address updatedAddress;
-        try {
-            updatedAddress = addressRepository.update(mapperFacade.map(addressView, Address.class), contractorId);
-        } catch (Exception ex) {
-            throw new CantManipulateObject("There is a problem while updating address to DB", ex);
+        Address updatedAddress = null;
+        if(addressView != null) {
+            Address address = addressRepository.findByTypeAndContractorId(addressView.getAddressType(), contractorId);
+            if (address == null) {
+                throw new CantManipulateObject(String.format("Can not find address by addressType=%s and contractorId=%s", addressView.getAddressType(), contractorId));
+            }
+            try {
+                updatedAddress = addressRepository.update(mapperFacade.map(addressView, Address.class), contractorId);
+            } catch (Exception ex) {
+                throw new CantManipulateObject("There is a problem while updating address to DB", ex);
+            }
         }
         return mapperFacade.map(updatedAddress, AddressView.class);
     }
 
     @Transactional
     @Override
-    public void delete(int id) {
+    public void delete(int id, int contractorId) {
         addressRepository.delete(id);
     }
 }

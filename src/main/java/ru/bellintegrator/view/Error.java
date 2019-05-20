@@ -1,6 +1,12 @@
 package ru.bellintegrator.view;
 
+/**
+ * DTO сообщения об ошибке
+ */
 public class Error {
+    /**
+     * Текст сообщения
+     */
     private String message;
 
     public Error() {

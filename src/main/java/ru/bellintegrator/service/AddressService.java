@@ -4,11 +4,7 @@ import ru.bellintegrator.view.AddressView;
 
 import java.util.List;
 
-public interface AddressService {
-    AddressView getById(int id);
+public interface AddressService extends BaseService<AddressView>{
     AddressView getByTypeAndContractorId(int addressType, int contractorId);
     List<AddressView> getByContractorId(int contractorId);
-    AddressView create(AddressView addressView, int contractorId);
-    AddressView update(AddressView addressView, int contractorId);
-    void delete(int id);
 }
