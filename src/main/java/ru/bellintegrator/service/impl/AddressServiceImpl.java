@@ -12,6 +12,9 @@ import ru.bellintegrator.view.AddressView;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class AddressServiceImpl  implements AddressService {
 
@@ -21,24 +24,36 @@ public class AddressServiceImpl  implements AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public AddressView getById(int id) {
         return mapperFacade.map(addressRepository.findById(id), AddressView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<AddressView> getByContractorId(int contractorId) {
         return mapperFacade.mapAsList(addressRepository.findByContractorId(contractorId), AddressView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public AddressView getByTypeAndContractorId(int addressType, int contractorId) {
         return mapperFacade.map(addressRepository.findByTypeAndContractorId(addressType, contractorId), AddressView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public AddressView create(AddressView addressView, int contractorId) {
@@ -52,6 +67,9 @@ public class AddressServiceImpl  implements AddressService {
         return mapperFacade.map(address, AddressView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public AddressView update(AddressView addressView, int contractorId) {
@@ -70,6 +88,9 @@ public class AddressServiceImpl  implements AddressService {
         return mapperFacade.map(updatedAddress, AddressView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public void delete(int id, int contractorId) {

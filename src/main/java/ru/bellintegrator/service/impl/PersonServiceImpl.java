@@ -13,6 +13,9 @@ import ru.bellintegrator.view.PersonView;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -22,25 +25,34 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public PersonView getById(int id) {
         return mapperFacade.map(personRepository.findById(id), PersonView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<PersonView> getByContractorId(int contractorId) {
         return mapperFacade.mapAsList(personRepository.findByContractorId(contractorId), PersonView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public PersonView create(PersonView personView,  int contractorId) {
         Person person = null;
         if (personView != null) {
             List<Person> personList = personRepository.findByContractorId(contractorId);
-            if (personList.stream().anyMatch(e -> e.getPersonType() == PersonType.Responsible.getValue())) {
+            if ((personView.getPersonType() ==  PersonType.Responsible.getValue()) && (personList.stream().anyMatch(e -> e.getPersonType() == PersonType.Responsible.getValue()))) {
                 throw new CantManipulateObject(String.format("Responsible for contractor with id=%s already exist", personView.getContractorId()));
             }
             try {
@@ -52,6 +64,9 @@ public class PersonServiceImpl implements PersonService {
         return mapperFacade.map(person, PersonView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public PersonView update(PersonView personView, int contractorId) {
@@ -71,6 +86,9 @@ public class PersonServiceImpl implements PersonService {
         return mapperFacade.map(updatedPerson, PersonView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public void delete(int id, int contractorId) {

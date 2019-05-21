@@ -11,6 +11,9 @@ import ru.bellintegrator.model.mapper.MapperFacade;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class AddressRepositoryImpl implements AddressRepository {
     @Autowired
@@ -19,6 +22,9 @@ public class AddressRepositoryImpl implements AddressRepository {
     @Autowired
     DSLContext dsl;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Address findById(Integer id) {
         AddressRecord addressRecord = dsl
@@ -28,6 +34,9 @@ public class AddressRepositoryImpl implements AddressRepository {
         return mapperFacade.map(addressRecord, Address.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Address findByTypeAndContractorId(Integer addressType, Integer contractorId) {
         AddressRecord addressRecord = dsl
@@ -38,6 +47,9 @@ public class AddressRepositoryImpl implements AddressRepository {
         return mapperFacade.map(addressRecord, Address.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Address> findByContractorId(Integer contractorId) {
         List<AddressRecord> addressRecordList = dsl
@@ -47,6 +59,9 @@ public class AddressRepositoryImpl implements AddressRepository {
         return mapperFacade.mapAsList(addressRecordList, Address.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Address create(Address address, Integer contractorId) {
         AddressRecord addressRecord = dsl.insertInto(Tables.ADDRESS)
@@ -60,9 +75,13 @@ public class AddressRepositoryImpl implements AddressRepository {
                 .returning(Tables.ADDRESS.ID)
                 .fetchOne();
         address.setId(addressRecord.getId());
+        address.setContractorId(contractorId);
         return address;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Address update(Address address, Integer contractorId) {
         dsl.update(Tables.ADDRESS)
@@ -76,6 +95,9 @@ public class AddressRepositoryImpl implements AddressRepository {
         return this.findByTypeAndContractorId(address.getAddressType(), contractorId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Integer id) {
         dsl.deleteFrom(Tables.ADDRESS)

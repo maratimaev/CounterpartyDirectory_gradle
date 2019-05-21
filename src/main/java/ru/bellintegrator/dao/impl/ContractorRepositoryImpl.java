@@ -9,6 +9,9 @@ import ru.bellintegrator.db.tables.records.ContractorRecord;
 import ru.bellintegrator.model.Contractor;
 import ru.bellintegrator.model.mapper.MapperFacade;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class ContractorRepositoryImpl implements ContractorRepository {
     @Autowired
@@ -17,6 +20,9 @@ public class ContractorRepositoryImpl implements ContractorRepository {
     @Autowired
     private DSLContext dsl;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Contractor findById(Integer id) {
         ContractorRecord contractorRecord = dsl
@@ -26,6 +32,9 @@ public class ContractorRepositoryImpl implements ContractorRepository {
         return mapperFacade.map(contractorRecord, Contractor.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Contractor create(Contractor contractor) {
         ContractorRecord contractorRecord = dsl.insertInto(Tables.CONTRACTOR)
@@ -41,6 +50,9 @@ public class ContractorRepositoryImpl implements ContractorRepository {
         return contractor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Contractor update(Contractor contractor) {
         dsl.update(Tables.CONTRACTOR)
@@ -55,6 +67,9 @@ public class ContractorRepositoryImpl implements ContractorRepository {
         return this.findById(contractor.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Integer id) {
         dsl.deleteFrom(Tables.CONTRACTOR)

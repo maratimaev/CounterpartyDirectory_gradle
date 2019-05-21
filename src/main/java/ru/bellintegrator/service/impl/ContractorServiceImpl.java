@@ -18,6 +18,9 @@ import ru.bellintegrator.view.PersonView;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class ContractorServiceImpl implements ContractorService {
 
@@ -33,6 +36,9 @@ public class ContractorServiceImpl implements ContractorService {
     @Autowired
     private AddressService addressService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public ContractorView getById(int id) {
@@ -52,6 +58,9 @@ public class ContractorServiceImpl implements ContractorService {
         return contractorView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public ContractorView create(ContractorView contractorView, int contractorId) {
@@ -59,9 +68,9 @@ public class ContractorServiceImpl implements ContractorService {
             throw new CantManipulateObject("Contractor can't be null");
         }
         Contractor contractor = contractorRepository.create(mapperFacade.map(contractorView, Contractor.class));
-        addressService.create(contractorView.getLegalAddress(), contractorId);
-        addressService.create(contractorView.getAdvertising(), contractorId);
-        personService.create(contractorView.getResponsible(), contractorId);
+        addressService.create(contractorView.getLegalAddress(), contractor.getId());
+        addressService.create(contractorView.getAdvertising(), contractor.getId());
+        personService.create(contractorView.getResponsible(), contractor.getId());
         List<PersonView> pvList = contractorView.getContacts();
         if(pvList != null) {
             pvList.forEach(e -> personService.create(e, contractor.getId()));
@@ -69,6 +78,9 @@ public class ContractorServiceImpl implements ContractorService {
         return this.getById(contractor.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public ContractorView update(ContractorView contractorView, int contractorId) {
@@ -86,6 +98,9 @@ public class ContractorServiceImpl implements ContractorService {
         return this.getById(contractor.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public void delete(int id, int contractorId) {

@@ -2,7 +2,6 @@ package ru.bellintegrator.service.impl;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -68,11 +68,11 @@ public class ContractorServiceImplTest {
     @Test
     public void checkSuccessGetById() {
         ContractorView cv = contractorService.getById(this.testContractorView.getId());
-        Assert.assertThat(cv.getName().equals(this.testContractorView.getName()), is(true));
-        Assert.assertThat(cv.getLegalAddress().equals(this.testContractorView.getLegalAddress()), is(true));
-        Assert.assertThat(cv.getAdvertising().equals(this.testContractorView.getAdvertising()), is(true));
-        Assert.assertThat(cv.getResponsible().equals(this.testContractorView.getResponsible()), is(true));
-        Assert.assertThat(cv.getContacts().equals(this.testContractorView.getContacts()), is(true));
+        assertThat(cv.getName(), is(this.testContractorView.getName()));
+        assertThat(cv.getLegalAddress(), is(this.testContractorView.getLegalAddress()));
+        assertThat(cv.getAdvertising(), is(this.testContractorView.getAdvertising()));
+        assertThat(cv.getResponsible(), is(this.testContractorView.getResponsible()));
+        assertThat(cv.getContacts(), is(this.testContractorView.getContacts()));
     }
 
     @Test
@@ -89,16 +89,16 @@ public class ContractorServiceImplTest {
         cvList.add(this.testContactPersonView);
         this.testContractorView.setContacts(cvList);
         ContractorView cv = contractorService.update(this.testContractorView, this.testContractorView.getId());
-        Assert.assertThat(cv.getName().equals(this.testContractorView.getName()), is(true));
-        Assert.assertThat(cv.getLegalAddress().equals(this.testContractorView.getLegalAddress()), is(true));
-        Assert.assertThat(cv.getAdvertising().equals(this.testContractorView.getAdvertising()), is(true));
-        Assert.assertThat(cv.getResponsible().equals(this.testContractorView.getResponsible()), is(true));
-        Assert.assertThat(cv.getContacts().equals(this.testContractorView.getContacts()), is(true));
+        assertThat(cv.getName(), is(this.testContractorView.getName()));
+        assertThat(cv.getLegalAddress(), is(this.testContractorView.getLegalAddress()));
+        assertThat(cv.getAdvertising(), is(this.testContractorView.getAdvertising()));
+        assertThat(cv.getResponsible(), is(this.testContractorView.getResponsible()));
+        assertThat(cv.getContacts(), is(this.testContractorView.getContacts()));
     }
 
     @Test
     public void checkNullResultGetByWrongId() {
-        Assert.assertThat(contractorService.getById(-1), is(nullValue()));
+        assertThat(contractorService.getById(-1), is(nullValue()));
     }
 
     @Test
@@ -133,7 +133,7 @@ public class ContractorServiceImplTest {
                 RandomStringUtils.random(15, true, true)
         );
         this.testContractorView = contractorService.create(testContractor, testContractor.getId());
-        Assert.assertThat(contractorService.getById(this.testContractorView.getId()).getName().equals(testContractor.getName()), is(true));
+        assertThat(contractorService.getById(this.testContractorView.getId()).getName(), is(testContractor.getName()));
     }
 
     private void createTestPerson() {
@@ -147,7 +147,7 @@ public class ContractorServiceImplTest {
                 PersonType.Contact.getValue(), this.testContractorView.getId()
         );
         this.testContactPersonView = personService.create(testContactPerson, testContactPerson.getContractorId());
-        Assert.assertThat(personService.getById(this.testContactPersonView.getId()).getLastName().equals(testContactPerson.getLastName()), is(true));
+        assertThat(personService.getById(this.testContactPersonView.getId()).getLastName(), is(testContactPerson.getLastName()));
         ArrayList<PersonView> cvList = new ArrayList<>();
         cvList.add(this.testContactPersonView);
         this.testContractorView.setContacts(cvList);
@@ -162,7 +162,7 @@ public class ContractorServiceImplTest {
                 PersonType.Responsible.getValue(), this.testContractorView.getId()
         );
         this.testResponsiblePersonView = personService.create(testResponsiblePerson, testResponsiblePerson.getContractorId());
-        Assert.assertThat(personService.getById(this.testResponsiblePersonView.getId()).getLastName().equals(testResponsiblePerson.getLastName()), is(true));
+        assertThat(personService.getById(this.testResponsiblePersonView.getId()).getLastName(), is(testResponsiblePerson.getLastName()));
         this.testContractorView.setResponsible(this.testResponsiblePersonView);
     }
 
@@ -177,7 +177,7 @@ public class ContractorServiceImplTest {
                 AddressType.Legal.getValue(), this.testContractorView.getId()
         );
         this.testLegalAddressView = addressService.create(testLegalAddress, testLegalAddress.getContractorId());
-        Assert.assertThat(addressService.getById(this.testLegalAddressView.getId()).getCity().equals(testLegalAddress.getCity()), is(true));
+        assertThat(addressService.getById(this.testLegalAddressView.getId()).getCity(), is(testLegalAddress.getCity()));
         this.testContractorView.setLegalAddress(this.testLegalAddressView);
 
         AddressView testAdvertisingAddress = new AddressView(
@@ -190,26 +190,26 @@ public class ContractorServiceImplTest {
                 AddressType.Advertising.getValue(), this.testContractorView.getId()
         );
         this.testAdvertisingAddressView = addressService.create(testAdvertisingAddress, testAdvertisingAddress.getContractorId());
-        Assert.assertThat(addressService.getById(this.testAdvertisingAddressView.getId()).getCity().equals(testAdvertisingAddress.getCity()), is(true));
+        assertThat(addressService.getById(this.testAdvertisingAddressView.getId()).getCity(), is(testAdvertisingAddress.getCity()));
         this.testContractorView.setAdvertising(this.testAdvertisingAddressView);
     }
 
     private void deleteTestContractor() {
         contractorService.delete(this.testContractorView.getId(), this.testContractorView.getId());
-        Assert.assertThat(contractorService.getById(this.testContractorView.getId()), is(nullValue()));
+        assertThat(contractorService.getById(this.testContractorView.getId()), is(nullValue()));
     }
 
     private void deleteTestPerson() {
         personService.delete(this.testContactPersonView.getId(), this.testContactPersonView.getContractorId());
-        Assert.assertThat(personService.getById(this.testContactPersonView.getId()), is(nullValue()));
+        assertThat(personService.getById(this.testContactPersonView.getId()), is(nullValue()));
         personService.delete(this.testResponsiblePersonView.getId(), this.testResponsiblePersonView.getContractorId());
-        Assert.assertThat(personService.getById(this.testResponsiblePersonView.getId()), is(nullValue()));
+        assertThat(personService.getById(this.testResponsiblePersonView.getId()), is(nullValue()));
     }
 
     private void deleteTestAddress() {
         addressService.delete(this.testLegalAddressView.getId(), this.testLegalAddressView.getContractorId());
-        Assert.assertThat(addressService.getById(this.testLegalAddressView.getId()), is(nullValue()));
+        assertThat(addressService.getById(this.testLegalAddressView.getId()), is(nullValue()));
         addressService.delete(this.testAdvertisingAddressView.getId(), this.testAdvertisingAddressView.getContractorId());
-        Assert.assertThat(addressService.getById(this.testAdvertisingAddressView.getId()), is(nullValue()));
+        assertThat(addressService.getById(this.testAdvertisingAddressView.getId()), is(nullValue()));
     }
 }

@@ -15,6 +15,9 @@ import ru.bellintegrator.model.mapper.MapperFacade;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
     @Autowired
@@ -23,6 +26,9 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Autowired
     private DSLContext dsl;
 
+    /**
+     * {@inheritDoc}
+     */
     @Cacheable(value="personCache")
     @Override
     public Person findById(Integer id) {
@@ -33,6 +39,9 @@ public class PersonRepositoryImpl implements PersonRepository {
         return mapperFacade.map(personRecord, Person.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Cacheable(value="personCache", key = "'contractorId:' + #contractorId")
     @Override
     public List<Person> findByContractorId(Integer contractorId) {
@@ -43,6 +52,9 @@ public class PersonRepositoryImpl implements PersonRepository {
         return mapperFacade.mapAsList(personRecordList, Person.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     @Override
     public Person create(Person person, Integer contractorId) {
@@ -57,9 +69,13 @@ public class PersonRepositoryImpl implements PersonRepository {
                 .returning(Tables.PERSON.ID)
                 .fetchOne();
         person.setId(personRecord.getId());
+        person.setContractorId(contractorId);
         return person;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @CachePut(value = "personCache", key = "#person.id")
     @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
     @Override
@@ -75,6 +91,9 @@ public class PersonRepositoryImpl implements PersonRepository {
         return this.findById(person.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Caching(evict = {
             @CacheEvict(value = "personCache", key = "#id"),
             @CacheEvict(value = "personCache", key = "'contractorId:' + #contractorId")
