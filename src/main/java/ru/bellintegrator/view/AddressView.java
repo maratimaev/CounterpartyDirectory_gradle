@@ -1,5 +1,7 @@
 package ru.bellintegrator.view;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Objects;
 
 /**
@@ -9,34 +11,42 @@ public class AddressView implements BaseView{
     /**
      * id адреса
      */
+    @ApiModelProperty(notes = "id адреса")
     private int id;
     /**
      * Регион
      */
+    @ApiModelProperty(notes = "Регион")
     private String region;
     /**
      * Город
      */
+    @ApiModelProperty(notes = "Город")
     private String city;
     /**
      * Улица
      */
+    @ApiModelProperty(notes = "Улица")
     private String street;
     /**
      * Номер дома
      */
+    @ApiModelProperty(notes = "Номер дома")
     private int houseNumber;
     /**
      * Номер корпуса
      */
+    @ApiModelProperty(notes = "Номер корпуса")
     private int housingNumber;
     /**
      * Тип адреса (1 - юридический, 2 - для рекламной продукции)
      */
+    @ApiModelProperty(notes = "Тип адреса (1 - юридический, 2 - для рекламной продукции")
     private int addressType;
     /**
      * id контрагента
      */
+    @ApiModelProperty(notes = "id контрагента для привязки")
     private int contractorId;
 
     public AddressView() {

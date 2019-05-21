@@ -17,6 +17,7 @@
         <dbUsername>postgres</dbUsername>
         <dbPassword>Zz123456</dbPassword>
         <apache.commons>3.9</apache.commons>
+        <swagger>2.9.2</swagger>
     </properties>
 
     <parent>
@@ -78,6 +79,18 @@
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons}</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger}</version>
+        </dependency>
+
+
 
     </dependencies>
 

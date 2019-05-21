@@ -1,5 +1,7 @@
 package ru.bellintegrator.view;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Objects;
 
 /**
@@ -9,34 +11,42 @@ public class PersonView implements BaseView{
     /**
      * id контакта
      */
+    @ApiModelProperty(notes = "id контакта")
     private int id;
     /**
      * Фамилия
      */
+    @ApiModelProperty(notes = "Фамилия")
     private String lastName;
     /**
      * Имя
      */
+    @ApiModelProperty(notes = "Имя")
     private String firstName;
     /**
      * Отчество
      */
+    @ApiModelProperty(notes = "Отчество")
     private String middleName;
     /**
      * Номер телефона
      */
+    @ApiModelProperty(notes = "Номер телефона")
     private String phoneNumber;
     /**
      * Электронная почта
      */
+    @ApiModelProperty(notes = "Электронная почта")
     private String email;
     /**
      * Тип контакта (1 - контактное лицо, 2 - ответственный)
      */
+    @ApiModelProperty(notes = "Тип контакта (1 - контактное лицо, 2 - ответственный)")
     private int personType;
     /**
      * id контрагента
      */
+    @ApiModelProperty(notes = "id контрагента")
     private int contractorId;
 
     public PersonView() {

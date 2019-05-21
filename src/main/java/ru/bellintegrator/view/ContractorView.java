@@ -1,5 +1,7 @@
 package ru.bellintegrator.view;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -10,46 +12,57 @@ public class ContractorView implements BaseView{
     /**
      * id контрагента
      */
+    @ApiModelProperty(notes = "id контрагента")
     private int id;
     /**
      * Имя контрагента
      */
+    @ApiModelProperty(notes = "Имя контрагента")
     private String name;
     /**
      * Полное имя контрагента
      */
+    @ApiModelProperty(notes = "Полное имя контрагента")
     private String fullName;
     /**
      * Тип контрагента
      */
+    @ApiModelProperty(notes = "Тип контрагента")
     private String type;
     /**
      * ИНН
      */
+    @ApiModelProperty(notes = "ИНН")
     private String inn;
     /**
      * DTO  юридического адреса
      */
+    @ApiModelProperty(notes = "DTO  юридического адреса")
     private AddressView legalAddress;
     /**
      * Номер телефона
      */
+    @ApiModelProperty(notes = "Номер телефона")
     private String phoneNumber;
     /**
      * DTO адреса доставки рекламной продукции
      */
+    @ApiModelProperty(notes = "DTO адреса доставки рекламной продукции")
     private AddressView advertising;
     /**
      * Электронная почта
      */
+    @ApiModelProperty(notes = "Электронная почта")
     private String email;
     /**
      * Список DTO контактных лиц
      */
+    @ApiModelProperty(notes = "Список DTO контактных лиц")
     private List<PersonView> contacts;
     /**
      * DTO ответственного лица
      */
+    @ApiModelProperty(notes = "DTO ответственного лица")
     private PersonView responsible;
 
     public ContractorView() {
