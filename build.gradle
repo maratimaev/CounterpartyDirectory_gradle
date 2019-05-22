@@ -11,9 +11,6 @@ plugins {
 repositories {
     mavenLocal()
     maven { url = 'http://repo.maven.apache.org/maven2' }
-    jcenter()
-    maven { url 'https://plugins.gradle.org/m2/' }
-    maven { url 'http://repo.spring.io/plugins-release' }
 }
 
 dependencies {
